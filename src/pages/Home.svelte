@@ -1,5 +1,27 @@
 <script>
-    let radius = 5;
+    import RadiusInput from '../components/RadiusInput.svelte';
+
+    let radius = 5; // RadiusInput currently returns string, need to type case to integer when using
+    let location_string = '';
+    let zip = null;
+
+    const handlebtn = () => {
+        console.log(typeof(radius));
+    }
+    
+
+    const showPosition = (position) => {
+        location_string =  "Latitude: "+position.coords.latitude+"<br>Longitude: "+ position.coords.longitude;
+    }
+
+    const getLocation = () => {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            location_string = "Geolocation is not supported by this browser";
+        }
+    }
+    
 
 </script>
 
@@ -7,29 +29,22 @@
 
 </style>
  
-<h1>Random Eater</h1>
+<h1>Random Restaurant</h1>
 
 <div class="row">
-    <div class="col s12">
-        <form action="#">
-            <p>
-                <label>
-                    <input name="fivemiles" type="radio" bind:group={radius} value=5>
-                    <span>5 miles</span>
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input name="tenmiles" type="radio" bind:group={radius} value=10> 
-                    <span>10 miles</span>
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input name="twentymiles" type="radio" bind:group={radius} value=20>
-                    <span>20 miles</span>
-                </label>
-            </p>
-        </form>
+    <div class="col s6">
+        <div class="input-field">
+            <label for="zip-code">Zip code</label>
+            <input type="text" bind:value={zip}/>
+        </div>
+        <button class="waves-effect waves-light btn" on:click={getLocation}>
+            <i class="material-icons left">location_on</i>
+            Use my current location
+        </button>
+        <p>{@html location_string}</p>
+    </div>
+    <div class="col s6">
+        <RadiusInput bind:radius={radius}/>
+        <button on:click={handlebtn}>CLICK</button>
     </div>
 </div>
