@@ -52,7 +52,7 @@
 <div class="row">
     <div class="col s6">
         {#if readyToSubmit}
-            <button class="waves-effect waves-light btn">
+            <button class="waves-effect waves-light pulse btn">
                 <i class="material-icons left">restaurant</i>
                 Get restaurant
             </button>
