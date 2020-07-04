@@ -4,6 +4,7 @@
     let radius = 5; // RadiusInput currently returns string, need to type case to integer when using
     let location_string = '';
     let zip = null;
+    let readyToSubmit = false; // set to true when have a location AND radius? or use default radius?
 
     const handlebtn = () => {
         console.log(typeof(radius));
@@ -45,6 +46,21 @@
     </div>
     <div class="col s6">
         <RadiusInput bind:radius={radius}/>
-        <button on:click={handlebtn}>CLICK</button>
+        <button class="btn" on:click={handlebtn}>CLICK</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col s6">
+        {#if readyToSubmit}
+            <button class="waves-effect waves-light btn">
+                <i class="material-icons left">restaurant</i>
+                Get restaurant
+            </button>
+        {:else}
+            <button class="btn disabled">
+                <i class="material-icons left">restaurant</i>
+                Get restaurant
+            </button>
+        {/if}
     </div>
 </div>
