@@ -1,6 +1,6 @@
 <script>
     import RadiusInput from '../components/RadiusInput.svelte';
-
+    
     let radius = 5; // RadiusInput currently returns string, need to type case to integer when using
     let location_string = '';
     let zip = null;
@@ -9,16 +9,17 @@
 
     let long = null;
     let lat = null;
-
+    const apiKey = __myapp.env.API_KEY;
     const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
     const un = 'mtruong1999';
-
+    const yelpApiBaseUrl = 'https://api.yelp.com/v3/businesses/search';
     const handlebtn = () => {
         console.log(typeof(radius));
         console.log(typeof(long));
         console.log(typeof(lat));
         console.log(long);
         console.log(typeof(zip));
+        console.log(apiKey);
     }
     
 
@@ -64,7 +65,7 @@
         if(zip !== null || locationFetched)
         {
             // have required info, get nearby restaurants
-            if(zip !== null)
+            if(zip !== null) // might not need this check because btn should be disabled
             {
                 // zip field not empty, get long/lat for zip
                 fetch(`${apiBaseUrl}postalcode=${zip}&username=${un}&country=us&type=json`)
@@ -81,6 +82,17 @@
                     });
             }
         }
+        // Dont need zip anymore since can be passed to yelp api
+        // so we can instead check whether we are wanting to use
+        // zip or lat/long in request
+        //let url = `${yelpApiBaseUrl}`
+        //fetch(url, {
+            //method: 'GET',
+            //headers: {
+                //'Authorization' : 'Bearer ' + process.env.API_KEY, 
+            //}
+        //})
+        // TODO: Add conversion from miles to meters for GET request
 
     }
 

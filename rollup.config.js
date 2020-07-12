@@ -4,6 +4,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import {config} from 'dotenv';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -34,6 +36,15 @@ export default {
 		resolve({
 			browser: true,
 			dedupe: ['svelte']
+		}),
+		replace({
+			// stringify the object
+			__myapp: JSON.stringify({
+				env: {
+					isProd: production,
+					API_KEY: process.env.API_KEY
+				}
+			}),
 		}),
 		commonjs(),
 
