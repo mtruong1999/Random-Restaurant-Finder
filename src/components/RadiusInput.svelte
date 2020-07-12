@@ -1,5 +1,6 @@
 <script>
     export let radius;
+    // TODO: add default radius selected
 </script>
 
 <p style="font-weight:bold">Select search radius</p>

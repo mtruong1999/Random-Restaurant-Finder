@@ -5,24 +5,83 @@
     let location_string = '';
     let zip = null;
     let readyToSubmit = false; // set to true when have a location AND radius? or use default radius?
+    let locationFetched = false;
+
+    let long = null;
+    let lat = null;
+
+    const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
+    const un = 'mtruong1999';
 
     const handlebtn = () => {
         console.log(typeof(radius));
+        console.log(typeof(long));
+        console.log(typeof(lat));
+        console.log(long);
+        console.log(typeof(zip));
     }
     
 
     const showPosition = (position) => {
         location_string =  "Latitude: "+position.coords.latitude+"<br>Longitude: "+ position.coords.longitude;
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
     }
 
     const getLocation = () => {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
+            locationFetched = true;
         } else {
             location_string = "Geolocation is not supported by this browser";
         }
     }
+    const handleZip = () => {
+        if(zip == '')
+        {
+            readyToSubmit = false;
+        } else if(!isNaN(zip))
+        {
+            if(zip.length === 5) // U.S. zip codes are always 5 digits long
+                readyToSubmit = true;
+            else
+                readyToSubmit = false;
+        } else {
+            readyToSubmit = false;
+        }
+    }
     
+    function status(res) {
+        if(res.status >= 200 && res.status < 300) {
+            return Promise.resolve(res);
+        } else {
+            return Promise.reject(new Error(res.statusText));
+        }
+    }
+    function onGetRestaurant(event) {
+        console.log(zip);
+        if(zip !== null || locationFetched)
+        {
+            // have required info, get nearby restaurants
+            if(zip !== null)
+            {
+                // zip field not empty, get long/lat for zip
+                fetch(`${apiBaseUrl}postalcode=${zip}&username=${un}&country=us&type=json`)
+                    .then(status)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        lat = data.postalCodes[0].lat;
+                        long = data.postalCodes[0].lng;
+                    }).catch((error) => {
+                        // TODO: do something better when error
+                        console.log('Request failed', error);
+                    });
+            }
+        }
+
+    }
 
 </script>
 
@@ -36,7 +95,7 @@
     <div class="col s6">
         <div class="input-field">
             <label for="zip-code">Zip code</label>
-            <input type="text" bind:value={zip}/>
+            <input type="text" bind:value={zip} on:input={handleZip}/>
         </div>
         <button class="waves-effect waves-light btn" on:click={getLocation}>
             <i class="material-icons left">location_on</i>
@@ -52,7 +111,7 @@
 <div class="row">
     <div class="col s6">
         {#if readyToSubmit}
-            <button class="waves-effect waves-light pulse btn">
+            <button class="waves-effect waves-light pulse btn" on:click={onGetRestaurant}>
                 <i class="material-icons left">restaurant</i>
                 Get restaurant
             </button>
