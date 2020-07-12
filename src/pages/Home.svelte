@@ -26,12 +26,13 @@
         location_string =  "Latitude: "+position.coords.latitude+"<br>Longitude: "+ position.coords.longitude;
         lat = position.coords.latitude;
         long = position.coords.longitude;
+        readyToSubmit = true;
+        locationFetched = true;
     }
 
     const getLocation = () => {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-            locationFetched = true;
         } else {
             location_string = "Geolocation is not supported by this browser";
         }
@@ -50,7 +51,7 @@
             readyToSubmit = false;
         }
     }
-    
+
     function status(res) {
         if(res.status >= 200 && res.status < 300) {
             return Promise.resolve(res);
