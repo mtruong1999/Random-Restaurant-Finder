@@ -10,8 +10,8 @@
     let long = null;
     let lat = null;
     const apiKey = __myapp.env.API_KEY;
-    const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
-    const un = 'mtruong1999';
+    //const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
+    //const un = 'mtruong1999';
     const yelpApiBaseUrl = 'https://api.yelp.com/v3/businesses/search';
     const handlebtn = () => {
         console.log(typeof(radius));
@@ -62,6 +62,7 @@
     }
     function onGetRestaurant(event) {
         console.log(zip);
+        /*
         if(zip !== null || locationFetched)
         {
             // have required info, get nearby restaurants
@@ -82,16 +83,36 @@
                     });
             }
         }
+        */
         // Dont need zip anymore since can be passed to yelp api
         // so we can instead check whether we are wanting to use
         // zip or lat/long in request
-        //let url = `${yelpApiBaseUrl}`
-        //fetch(url, {
-            //method: 'GET',
-            //headers: {
-                //'Authorization' : 'Bearer ' + process.env.API_KEY, 
-            //}
-        //})
+        let url;
+        if(locationFetched)
+        {
+            url = `${yelpApiBaseUrl}?latitude=${lat}&longitude=${long}`;
+        } else if(zip != null)
+        {
+            url = `${yelpApiBaseUrl}?location=${zip}`;
+        }
+        // radius conversion
+        url += `&radius=8046&limit=1`; // TODO: add open_now
+        fetch('https://cors-anywhere.herokuapp.com/'+url, { // need to look into cors anywhere
+            method: 'GET',
+            headers: {
+                'Authorization' : `bearer ${apiKey}`, 
+            }
+        })
+            .then(status)
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+            }).catch((error) => {
+                // TODO: do something better when error
+                console.log('Request failed', error);
+            });
         // TODO: Add conversion from miles to meters for GET request
 
     }
