@@ -13,6 +13,9 @@
     //const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
     //const un = 'mtruong1999';
     const yelpApiBaseUrl = 'https://api.yelp.com/v3/businesses/search';
+    const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+    const mpm = 1609; // meters per mile
+    
     const handlebtn = () => {
         console.log(typeof(radius));
         console.log(typeof(long));
@@ -95,9 +98,9 @@
         {
             url = `${yelpApiBaseUrl}?location=${zip}`;
         }
-        // radius conversion
-        url += `&radius=8046&limit=1`; // TODO: add open_now
-        fetch('https://cors-anywhere.herokuapp.com/'+url, { // need to look into cors anywhere
+        // approximate radius conversion
+        url += `&radius=${parseInt(zip) * mpm}&limit=1&open_now=true`; // might want to set limit to more in future for random carousel
+        fetch(corsAnywhereUrl + url, { // need to look into cors anywhere
             method: 'GET',
             headers: {
                 'Authorization' : `bearer ${apiKey}`, 
