@@ -99,7 +99,7 @@
             url = `${yelpApiBaseUrl}?location=${zip}`;
         }
         // approximate radius conversion
-        url += `&radius=${parseInt(zip) * mpm}&limit=1&open_now=true`; // might want to set limit to more in future for random carousel
+        url += `&radius=${parseInt(radius) * mpm}&limit=1&open_now=true`; // might want to set limit to more in future for random carousel
         fetch(corsAnywhereUrl + url, { // need to look into cors anywhere
             method: 'GET',
             headers: {
