@@ -11,8 +11,7 @@
     let long = null;
     let lat = null;
     const apiKey = __myapp.env.API_KEY;
-    //const apiBaseUrl = 'http://api.geonames.org/postalCodeSearch?';
-    //const un = 'mtruong1999';
+
     const yelpApiBaseUrl = 'https://api.yelp.com/v3/businesses/search';
     const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
     const mpm = 1609; // meters per mile
