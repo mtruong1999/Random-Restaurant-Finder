@@ -11,8 +11,9 @@ To run locally, install the dependencies...
 cd Random-Restaurant-Finder
 npm install
 ```
+...then create a `.env` file and add `API_KEY` to hold your Yelp API key.
 
-...then start [Rollup](https://rollupjs.org):
+Finally, start [Rollup](https://rollupjs.org):
 
 ```bash
 npm run dev
