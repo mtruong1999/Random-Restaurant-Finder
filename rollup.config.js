@@ -4,11 +4,11 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import {config} from 'dotenv';
+import {config as configDotEnv} from 'dotenv';
 import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
-
+configDotEnv();
 export default {
 	input: 'src/main.js',
 	output: {
