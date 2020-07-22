@@ -7,9 +7,12 @@
     let readyToSubmit = false; // set to true when have a location AND radius? or use default radius?
     let locationFetched = false;
     let loading = false;
+    let locationFound = false;
 
     let long = null;
     let lat = null;
+    let restaurant = null;
+
     const apiKey = __myapp.env.API_KEY;
 
     const yelpApiBaseUrl = 'https://api.yelp.com/v3/businesses/search';
@@ -55,7 +58,9 @@
             readyToSubmit = false;
         }
     }
-
+    const randomInt = (max) => {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
     function status(res) {
         if(res.status >= 200 && res.status < 300) {
             return Promise.resolve(res);
@@ -63,8 +68,12 @@
             return Promise.reject(new Error(res.statusText));
         }
     }
+    // TODO: Store fetched object so that it only requires one fetch for multiple random access
+    // unless they change location
+    // TODO: make restaurant display card into a component and pass it the full individual
+    // object
     function onGetRestaurant(event) {
-        console.log(zip);
+        //console.log(zip);
         // TODO: Move this to a separate component
         let url;
         loading = true;
@@ -75,12 +84,13 @@
         {
             url = `${yelpApiBaseUrl}?location=${zip}`;
         }
+
         // approximate radius conversion
-        url += `&radius=${parseInt(radius) * mpm}&limit=1&open_now=true`; // might want to set limit to more in future for random carousel
+        url += `&radius=${parseInt(radius) * mpm}&open_now=true&term=food`; // might want to set limit to more in future for random carousel
         fetch(corsAnywhereUrl + url, { // need to look into cors anywhere
             method: 'GET',
             headers: {
-                'Authorization' : `bearer ${apiKey}`, 
+                'Authorization' : `bearer ${apiKey}`,
             }
         })
             .then(status)
@@ -88,13 +98,21 @@
                 return res.json();
             })
             .then(data => {
-                console.log(data);
+                // TODO: look into being able to access rand int on the FULL data.total
+                //let randInt = randomInt(data.total)
+                if(data.businesses.length === 0) {
+                    // do something
+                    locationFound = false;
+                }
+                let randInt = randomInt(data.businesses.length);
+                restaurant = data.businesses[randInt];
+                locationFound = true;
             }).catch((error) => {
                 // TODO: do something better when error
                 console.log('Request failed', error);
             });
         // TODO: Add conversion from miles to meters for GET request
-
+        // TODO: Set business type to restaurant
         // Done
         loading = false;
     }
@@ -144,4 +162,21 @@
         <div class="indeterminate"></div>
     </div>
     
+{/if}
+{#if locationFound}
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <p class="card-title">{restaurant.name}</p>
+                <p>Address: {restaurant.location.display_address}</p><br>
+                <p>Phone: {restaurant.display_phone}</p>
+                <p>Distance: {Math.trunc(restaurant.distance / mpm)} mi.</p>
+            </div>
+            <div class="card-action">
+                <a href={restaurant.url}>Yelp Reviews</a>
+            </div>
+        </div>
+    </div>
+</div>
 {/if}
