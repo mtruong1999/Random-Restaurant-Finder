@@ -2,6 +2,7 @@
 
 ## About
 Stuck trying to find a place to eat? This app will decide for you by giving you a random nearby restaurant.
+Can be found live [here](https://random-restaurant-finder.vercel.app/) (deployed via Vercel).
 
 ## Get started
 
