@@ -19,15 +19,6 @@
     const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
     const mpm = 1609; // meters per mile
     
-    const handlebtn = () => {
-        console.log(typeof(radius));
-        console.log(typeof(long));
-        console.log(typeof(lat));
-        console.log(long);
-        console.log(typeof(zip));
-        console.log(apiKey);
-    }
-    
 
     const showPosition = (position) => {
         location_string =  "Latitude: "+position.coords.latitude+"<br>Longitude: "+ position.coords.longitude;
@@ -139,7 +130,6 @@
         </div>
         <div class="col s6">
             <RadiusInput bind:radius={radius}/>
-            <button class="btn" on:click={handlebtn}>CLICK</button>
         </div>
     </div>
     <div class="row">
