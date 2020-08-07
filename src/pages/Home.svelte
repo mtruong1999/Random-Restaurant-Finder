@@ -123,7 +123,7 @@
                 <input type="text" bind:value={zip} on:input={handleZip}/>
             </div>
             
-            <button class="waves-effect waves-light btn" on:click={getLocation}>
+            <button class="waves-effect waves-light btn deep-purple lighten-1" on:click={getLocation}>
                 <i class="material-icons left">location_on</i>
                 Use my current location
             </button>
@@ -137,7 +137,7 @@
     
         <div class="col s12">
             {#if readyToSubmit}
-                <button class="waves-effect waves-light pulse btn" on:click={onGetRestaurant}>
+                <button class="waves-effect waves-light pulse btn deep-purple lighten-1" on:click={onGetRestaurant}>
                     <i class="material-icons left">restaurant</i>
                     Get restaurant
                 </button>
