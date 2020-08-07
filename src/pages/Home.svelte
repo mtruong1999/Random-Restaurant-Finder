@@ -122,18 +122,20 @@
                 <label for="zip-code">Zip code</label>
                 <input type="text" bind:value={zip} on:input={handleZip}/>
             </div>
+            
             <button class="waves-effect waves-light btn" on:click={getLocation}>
                 <i class="material-icons left">location_on</i>
                 Use my current location
             </button>
             <p>{@html location_string}</p>
         </div>
-        <div class="col s6">
-            <RadiusInput bind:radius={radius}/>
-        </div>
     </div>
     <div class="row">
-        <div class="col s6">
+        <div class="col s12">
+            <RadiusInput bind:radius={radius}/>
+        </div>
+    
+        <div class="col s12">
             {#if readyToSubmit}
                 <button class="waves-effect waves-light pulse btn" on:click={onGetRestaurant}>
                     <i class="material-icons left">restaurant</i>
