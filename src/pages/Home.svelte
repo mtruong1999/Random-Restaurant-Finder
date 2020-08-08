@@ -117,7 +117,7 @@
 <h3>Random Restaurant</h3>
 {#if !loading}
     <div class="row">
-        <div class="col s2">
+        <div class="col s5">
             <div class="input-field">
                 <label for="zip-code">Zip code</label>
                 <input type="text" bind:value={zip} on:input={handleZip}/>
@@ -125,7 +125,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s4">
+        <div class="col s12">
             <button class="waves-effect waves-light btn deep-purple lighten-1" on:click={getLocation}>
                 <i class="material-icons left">location_on</i>
                 Use my current location
@@ -134,12 +134,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s4">
+        <div class="col s6">
             <RadiusInput bind:radius={radius}/>
         </div>
     </div>
     <div class="row">
-        <div class="col s4">
+        <div class="col s6">
             {#if readyToSubmit}
                 <button class="waves-effect waves-light pulse btn deep-purple lighten-1" on:click={onGetRestaurant}>
                     <i class="material-icons left">restaurant</i>
