@@ -139,7 +139,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s6">
+        <div class="col s12">
             {#if readyToSubmit}
                 <button class="waves-effect waves-light pulse btn deep-purple lighten-1" on:click={onGetRestaurant}>
                     <i class="material-icons left">restaurant</i>
